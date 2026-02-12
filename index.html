@@ -212,10 +212,21 @@
 
         .gallery-card .card-img {
             width: 100%;
-            height: 320px;
-            background-size: cover;
-            background-position: center top;
+            height: 400px;
             position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-card .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover .card-img img {
+            transform: scale(1.05);
         }
 
         .gallery-card .card-img::after {
@@ -226,6 +237,7 @@
             right: 0;
             height: 50%;
             background: linear-gradient(transparent, rgba(10, 10, 26, 0.95));
+            z-index: 1;
         }
 
         .gallery-card .card-info {
@@ -735,69 +747,67 @@
         // === GALLERY DATA ===
         const galleryData = [
             {
-                name: 'Sakura Season',
-                desc: 'Cherry blossoms in full bloom across Japan',
-                tags: ['Japan', 'Nature', 'Spring'],
-                gradient: 'linear-gradient(135deg, #ff9a9e, #fecfef)'
+                name: 'Vibrant Beauty',
+                desc: 'Bold makeup and striking style',
+                tags: ['Beauty', 'Makeup', 'Style'],
+                img: 'https://images.pexels.com/photos/2508849/pexels-photo-2508849.jpeg?auto=compress&cs=tinysrgb&w=600'
             },
             {
-                name: 'Neon Tokyo',
-                desc: 'The electric nightlife of Shibuya district',
-                tags: ['Tokyo', 'Nightlife', 'Neon'],
-                gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)'
+                name: 'Elegant Charm',
+                desc: 'Effortless sophistication and grace',
+                tags: ['Elegant', 'Fashion', 'Portrait'],
+                img: 'https://images.pexels.com/photos/8062965/pexels-photo-8062965.jpeg?auto=compress&cs=tinysrgb&w=600'
             },
             {
-                name: 'K-Pop Wave',
-                desc: 'The global phenomenon of Korean pop culture',
-                tags: ['Korea', 'Music', 'Pop'],
-                gradient: 'linear-gradient(135deg, #f093fb, #f5576c)'
+                name: 'Natural Glow',
+                desc: 'Fresh-faced beauty in natural light',
+                tags: ['Natural', 'Glow', 'Outdoor'],
+                img: 'https://images.pexels.com/photos/3053485/pexels-photo-3053485.jpeg?auto=compress&cs=tinysrgb&w=600'
             },
             {
-                name: 'Thai Paradise',
-                desc: 'Stunning beaches and ancient temples',
-                tags: ['Thailand', 'Beach', 'Temple'],
-                gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)'
+                name: 'Traditional Grace',
+                desc: 'Timeless beauty in traditional attire',
+                tags: ['Traditional', 'Culture', 'Grace'],
+                img: 'https://images.pexels.com/photos/18402062/pexels-photo-18402062.jpeg?auto=compress&cs=tinysrgb&w=600'
             },
             {
-                name: 'Bali Dreams',
-                desc: 'Tropical beauty and spiritual tranquility',
-                tags: ['Bali', 'Tropical', 'Zen'],
-                gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)'
+                name: 'Flower Power',
+                desc: 'Trendy vibes with floral aesthetics',
+                tags: ['Trendy', 'Flowers', 'Creative'],
+                img: 'https://images.pexels.com/photos/4983110/pexels-photo-4983110.jpeg?auto=compress&cs=tinysrgb&w=600'
             },
             {
-                name: 'Shanghai Skyline',
-                desc: 'Futuristic architecture meets tradition',
-                tags: ['China', 'Modern', 'Architecture'],
-                gradient: 'linear-gradient(135deg, #fa709a, #fee140)'
+                name: 'Glamour Shot',
+                desc: 'High fashion editorial look',
+                tags: ['Glamour', 'Fashion', 'Editorial'],
+                img: 'https://images.pexels.com/photos/4355345/pexels-photo-4355345.jpeg?auto=compress&cs=tinysrgb&w=600'
             },
             {
-                name: 'Anime World',
-                desc: 'Where imagination becomes reality',
-                tags: ['Anime', 'Art', 'Culture'],
-                gradient: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)'
+                name: 'City Lights',
+                desc: 'Fashion portrait with urban backdrop',
+                tags: ['Urban', 'Night', 'Portrait'],
+                img: 'https://images.unsplash.com/photo-1542596594-649edbc13630?w=600&q=80'
             },
             {
-                name: 'Vietnamese Charm',
-                desc: 'Lantern streets and aromatic cuisine',
-                tags: ['Vietnam', 'Food', 'Lanterns'],
-                gradient: 'linear-gradient(135deg, #ffecd2, #fcb69f)'
+                name: 'Golden Hour',
+                desc: 'Stunning portrait in warm sunlight',
+                tags: ['Sunlight', 'Warm', 'Beauty'],
+                img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80'
             },
             {
-                name: 'Hanbok Elegance',
-                desc: 'Traditional Korean fashion and beauty',
-                tags: ['Korea', 'Fashion', 'Traditional'],
-                gradient: 'linear-gradient(135deg, #ff9a9e, #fad0c4)'
+                name: 'Street Style',
+                desc: 'Confidence and charisma on the streets',
+                tags: ['Street', 'Style', 'Cool'],
+                img: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80'
             }
         ];
 
-        const emojis = ['&#x1F338;','&#x1F3EF;','&#x1F30F;','&#x2728;','&#x1F3B6;','&#x1F3D6;','&#x1F305;','&#x1F3AE;','&#x1F9E7;'];
-
         function renderGallery() {
             const grid = document.getElementById('galleryGrid');
-            grid.innerHTML = galleryData.map((item, i) => `
+            grid.innerHTML = galleryData.map((item) => `
                 <div class="gallery-card">
-                    <div class="card-img" style="background: ${item.gradient}; display:flex; align-items:center; justify-content:center;">
-                        <span style="font-size:5rem">${emojis[i] || '&#x2728;'}</span>
+                    <div class="card-img">
+                        <img src="${item.img}" alt="${item.name}" loading="lazy">
                     </div>
                     <div class="card-info">
                         <h3>${item.name}</h3>
