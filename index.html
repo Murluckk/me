@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asia Vibes - Entertainment Portal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Orbitron:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-pink: #ff2d95;
+            --neon-blue: #00d4ff;
+            --neon-purple: #b44dff;
+            --dark-bg: #0a0a1a;
+            --card-bg: rgba(15, 15, 40, 0.85);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--dark-bg);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation .circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: floatBg 12s ease-in-out infinite;
+        }
+
+        .bg-animation .circle:nth-child(1) {
+            width: 500px; height: 500px;
+            background: var(--neon-pink);
+            top: -100px; left: -100px;
+            animation-delay: 0s;
+        }
+        .bg-animation .circle:nth-child(2) {
+            width: 400px; height: 400px;
+            background: var(--neon-blue);
+            bottom: -50px; right: -50px;
+            animation-delay: -4s;
+        }
+        .bg-animation .circle:nth-child(3) {
+            width: 350px; height: 350px;
+            background: var(--neon-purple);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -8s;
+        }
+
+        @keyframes floatBg {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        /* Sakura petals */
+        .sakura {
+            position: fixed;
+            top: -10px;
+            z-index: 1;
+            pointer-events: none;
+            font-size: 20px;
+            animation: fall linear forwards;
+            opacity: 0.7;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Content wrapper */
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 0 30px rgba(255, 45, 149, 0.4));
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 45, 149, 0.4)); }
+            50% { filter: drop-shadow(0 0 50px rgba(255, 45, 149, 0.7)); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 45, 149, 0.3);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        nav button:hover, nav button.active {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 45, 149, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 45, 149, 0.2);
+            border-color: var(--neon-pink);
+        }
+
+        .gallery-card .card-img {
+            width: 100%;
+            height: 320px;
+            background-size: cover;
+            background-position: center top;
+            position: relative;
+        }
+
+        .gallery-card .card-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(transparent, rgba(10, 10, 26, 0.95));
+        }
+
+        .gallery-card .card-info {
+            padding: 16px 20px;
+        }
+
+        .gallery-card .card-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .gallery-card .card-info p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .card-tags span {
+            background: rgba(255, 45, 149, 0.15);
+            color: var(--neon-pink);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #fff;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 45, 149, 0.15);
+            border-color: var(--neon-pink);
+        }
+
+        .quiz-option.correct {
+            background: rgba(0, 212, 100, 0.2);
+            border-color: #00d464;
+        }
+
+        .quiz-option.wrong {
+            background: rgba(255, 45, 45, 0.2);
+            border-color: #ff2d2d;
+        }
+
+        .quiz-score {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--neon-blue);
+        }
+
+        .quiz-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-blue));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .btn-next {
+            display: none;
+            margin: 25px auto 0;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: 'Noto Sans JP', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-next:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 45, 149, 0.4);
+        }
+
+        /* Fortune section */
+        .fortune-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .fortune-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 50px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+        }
+
+        .fortune-symbol {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: fortuneSpin 1s ease;
+        }
+
+        @keyframes fortuneSpin {
+            from { transform: rotateY(180deg) scale(0.5); opacity: 0; }
+            to { transform: rotateY(0) scale(1); opacity: 1; }
+        }
+
+        .fortune-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .fortune-kanji {
+            font-size: 3rem;
+            margin: 15px 0;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .fortune-meaning {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .btn-fortune {
+            margin-top: 30px;
+            padding: 16px 50px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-family: 'Noto Sans JP', sans-serif;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-fortune::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .btn-fortune:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(255, 45, 149, 0.4);
+        }
+
+        /* Fun Facts */
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .fact-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.15);
+        }
+
+        .fact-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .fact-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--neon-blue);
+        }
+
+        .fact-card p {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        /* Emoji slot machine */
+        .slot-container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .slot-machine {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .slot-reels {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .slot-reel {
+            width: 90px;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            border: 2px solid rgba(255, 45, 149, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .slot-reel.spinning {
+            animation: slotSpin 0.1s linear infinite;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 45, 149, 0.3);
+        }
+
+        @keyframes slotSpin {
+            0% { transform: translateY(-3px); }
+            50% { transform: translateY(3px); }
+            100% { transform: translateY(-3px); }
+        }
+
+        .slot-result {
+            font-size: 1.5rem;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .slot-result.win {
+            color: #ffd700;
+            animation: winPulse 0.5s ease infinite;
+        }
+
+        @keyframes winPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .btn-spin {
+            padding: 16px 60px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-spin:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-spin:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slot-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .slot-stats span {
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo { font-size: 2.5rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .facts-grid { grid-template-columns: 1fr; }
+            .quiz-container { padding: 25px; }
+        }
+
+        /* Kaomoji ticker */
+        .ticker {
+            overflow: hidden;
+            background: rgba(255, 45, 149, 0.08);
+            padding: 12px 0;
+            border-top: 1px solid rgba(255, 45, 149, 0.15);
+            border-bottom: 1px solid rgba(255, 45, 149, 0.15);
+            margin-bottom: 20px;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <div class="content">
+        <header>
+            <div class="logo">ASIA VIBES</div>
+            <div class="subtitle">Entertainment Portal</div>
+        </header>
+
+        <div class="ticker">
+            <div class="ticker-content">
+                (^_^) &nbsp;&nbsp; (*^_^*) &nbsp;&nbsp; (>_<) &nbsp;&nbsp; (^o^) &nbsp;&nbsp; (\^.\^) &nbsp;&nbsp; (~_~) &nbsp;&nbsp; (o_O) &nbsp;&nbsp; (=^..^=) &nbsp;&nbsp; (^_~) &nbsp;&nbsp; (*_*) &nbsp;&nbsp; (T_T) &nbsp;&nbsp; (^3^) &nbsp;&nbsp; (&gt;.&lt;) &nbsp;&nbsp; (._.) &nbsp;&nbsp;
+                (^_^) &nbsp;&nbsp; (*^_^*) &nbsp;&nbsp; (>_<) &nbsp;&nbsp; (^o^) &nbsp;&nbsp; (\^.\^) &nbsp;&nbsp; (~_~) &nbsp;&nbsp; (o_O) &nbsp;&nbsp; (=^..^=) &nbsp;&nbsp; (^_~) &nbsp;&nbsp; (*_*) &nbsp;&nbsp; (T_T) &nbsp;&nbsp; (^3^) &nbsp;&nbsp; (&gt;.&lt;) &nbsp;&nbsp; (._.) &nbsp;&nbsp;
+            </div>
+        </div>
+
+        <nav>
+            <button class="active" onclick="showSection('gallery')">Gallery</button>
+            <button onclick="showSection('quiz')">Quiz</button>
+            <button onclick="showSection('fortune')">Omikuji</button>
+            <button onclick="showSection('facts')">Fun Facts</button>
+            <button onclick="showSection('slots')">Slots</button>
+        </nav>
+
+        <!-- Gallery Section -->
+        <div id="gallery" class="section active">
+            <h2 class="section-title">Asian Beauty Gallery</h2>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="section">
+            <h2 class="section-title">Asian Culture Quiz</h2>
+            <div class="quiz-container">
+                <div class="quiz-score">Score: <span id="quizScore">0</span> / <span id="quizTotal">0</span></div>
+                <div class="quiz-progress"><div class="quiz-progress-bar" id="quizProgressBar"></div></div>
+                <div class="quiz-question" id="quizQuestion"></div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <button class="btn-next" id="btnNext" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Fortune Section -->
+        <div id="fortune" class="section">
+            <h2 class="section-title">Omikuji - Japanese Fortune</h2>
+            <div class="fortune-container">
+                <div class="fortune-card" id="fortuneCard">
+                    <div class="fortune-symbol">&#x26E9;</div>
+                    <div class="fortune-text">Shake the omikuji box to reveal your fortune...</div>
+                </div>
+                <button class="btn-fortune" onclick="drawFortune()">Draw Fortune</button>
+            </div>
+        </div>
+
+        <!-- Fun Facts Section -->
+        <div id="facts" class="section">
+            <h2 class="section-title">Fun Facts about Asia</h2>
+            <div class="facts-grid" id="factsGrid"></div>
+        </div>
+
+        <!-- Slots Section -->
+        <div id="slots" class="section">
+            <h2 class="section-title">Lucky Emoji Slots</h2>
+            <div class="slot-container">
+                <div class="slot-machine">
+                    <div class="slot-result" id="slotResult">Try your luck!</div>
+                    <div class="slot-reels">
+                        <div class="slot-reel" id="reel1">?</div>
+                        <div class="slot-reel" id="reel2">?</div>
+                        <div class="slot-reel" id="reel3">?</div>
+                    </div>
+                    <button class="btn-spin" id="btnSpin" onclick="spinSlots()">SPIN</button>
+                    <div class="slot-stats">
+                        Spins: <span id="spinCount">0</span> &nbsp;|&nbsp; Wins: <span id="winCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            ASIA VIBES &copy; 2026 &mdash; Entertainment Portal
+        </footer>
+    </div>
+
+    <script>
+        // === SAKURA PETALS ===
+        function createSakura() {
+            const petals = ['&#x1F338;', '&#x1F33A;', '&#x2728;'];
+            const petal = document.createElement('div');
+            petal.className = 'sakura';
+            petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.fontSize = (15 + Math.random() * 15) + 'px';
+            petal.style.animationDuration = (5 + Math.random() * 8) + 's';
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 13000);
+        }
+        setInterval(createSakura, 800);
+
+        // === NAVIGATION ===
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // === GALLERY DATA ===
+        const galleryData = [
+            {
+                name: 'Sakura Season',
+                desc: 'Cherry blossoms in full bloom across Japan',
+                tags: ['Japan', 'Nature', 'Spring'],
+                gradient: 'linear-gradient(135deg, #ff9a9e, #fecfef)'
+            },
+            {
+                name: 'Neon Tokyo',
+                desc: 'The electric nightlife of Shibuya district',
+                tags: ['Tokyo', 'Nightlife', 'Neon'],
+                gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)'
+            },
+            {
+                name: 'K-Pop Wave',
+                desc: 'The global phenomenon of Korean pop culture',
+                tags: ['Korea', 'Music', 'Pop'],
+                gradient: 'linear-gradient(135deg, #f093fb, #f5576c)'
+            },
+            {
+                name: 'Thai Paradise',
+                desc: 'Stunning beaches and ancient temples',
+                tags: ['Thailand', 'Beach', 'Temple'],
+                gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)'
+            },
+            {
+                name: 'Bali Dreams',
+                desc: 'Tropical beauty and spiritual tranquility',
+                tags: ['Bali', 'Tropical', 'Zen'],
+                gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)'
+            },
+            {
+                name: 'Shanghai Skyline',
+                desc: 'Futuristic architecture meets tradition',
+                tags: ['China', 'Modern', 'Architecture'],
+                gradient: 'linear-gradient(135deg, #fa709a, #fee140)'
+            },
+            {
+                name: 'Anime World',
+                desc: 'Where imagination becomes reality',
+                tags: ['Anime', 'Art', 'Culture'],
+                gradient: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)'
+            },
+            {
+                name: 'Vietnamese Charm',
+                desc: 'Lantern streets and aromatic cuisine',
+                tags: ['Vietnam', 'Food', 'Lanterns'],
+                gradient: 'linear-gradient(135deg, #ffecd2, #fcb69f)'
+            },
+            {
+                name: 'Hanbok Elegance',
+                desc: 'Traditional Korean fashion and beauty',
+                tags: ['Korea', 'Fashion', 'Traditional'],
+                gradient: 'linear-gradient(135deg, #ff9a9e, #fad0c4)'
+            }
+        ];
+
+        const emojis = ['&#x1F338;','&#x1F3EF;','&#x1F30F;','&#x2728;','&#x1F3B6;','&#x1F3D6;','&#x1F305;','&#x1F3AE;','&#x1F9E7;'];
+
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = galleryData.map((item, i) => `
+                <div class="gallery-card">
+                    <div class="card-img" style="background: ${item.gradient}; display:flex; align-items:center; justify-content:center;">
+                        <span style="font-size:5rem">${emojis[i] || '&#x2728;'}</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>${item.name}</h3>
+                        <p>${item.desc}</p>
+                        <div class="card-tags">
+                            ${item.tags.map(t => `<span>${t}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        renderGallery();
+
+        // === QUIZ ===
+        const quizData = [
+            {
+                q: 'What is the traditional Japanese art of paper folding called?',
+                options: ['Ikebana', 'Origami', 'Bonsai', 'Sumi-e'],
+                answer: 1
+            },
+            {
+                q: 'Which country is known as the "Land of the Morning Calm"?',
+                options: ['Japan', 'Thailand', 'South Korea', 'Vietnam'],
+                answer: 2
+            },
+            {
+                q: 'What does "kawaii" mean in Japanese?',
+                options: ['Scary', 'Cute', 'Fast', 'Big'],
+                answer: 1
+            },
+            {
+                q: 'Which Asian city is known as the "Pearl of the Orient"?',
+                options: ['Tokyo', 'Hong Kong', 'Bangkok', 'Singapore'],
+                answer: 1
+            },
+            {
+                q: 'What is the Korean writing system called?',
+                options: ['Kanji', 'Hangul', 'Hiragana', 'Pinyin'],
+                answer: 1
+            },
+            {
+                q: 'Which dish originates from Japan?',
+                options: ['Pad Thai', 'Kimchi', 'Ramen', 'Pho'],
+                answer: 2
+            },
+            {
+                q: 'What flower is considered the national flower of Japan?',
+                options: ['Rose', 'Lotus', 'Cherry Blossom', 'Orchid'],
+                answer: 2
+            },
+            {
+                q: 'What is "matcha"?',
+                options: ['Rice wine', 'Green tea powder', 'Soy sauce', 'Wasabi paste'],
+                answer: 1
+            },
+            {
+                q: 'The Great Wall of China is approximately how long?',
+                options: ['5,000 km', '13,000 km', '21,000 km', '8,000 km'],
+                answer: 2
+            },
+            {
+                q: 'Which anime studio created "Spirited Away"?',
+                options: ['Toei Animation', 'Studio Ghibli', 'Madhouse', 'Sunrise'],
+                answer: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            if (currentQuestion >= quizData.length) {
+                document.getElementById('quizQuestion').innerHTML = `Quiz Complete! Your score: ${score}/${quizData.length}`;
+                document.getElementById('quizOptions').innerHTML = `
+                    <button class="quiz-option" onclick="resetQuiz()" style="text-align:center; border-color: var(--neon-pink);">
+                        Play Again
+                    </button>`;
+                document.getElementById('btnNext').style.display = 'none';
+                return;
+            }
+
+            const q = quizData[currentQuestion];
+            document.getElementById('quizQuestion').textContent = q.q;
+            document.getElementById('quizProgressBar').style.width = (currentQuestion / quizData.length * 100) + '%';
+            document.getElementById('btnNext').style.display = 'none';
+
+            document.getElementById('quizOptions').innerHTML = q.options.map((opt, i) => `
+                <button class="quiz-option" onclick="checkAnswer(${i}, this)">${opt}</button>
+            `).join('');
+        }
+
+        function checkAnswer(idx, el) {
+            const q = quizData[currentQuestion];
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(o => o.style.pointerEvents = 'none');
+
+            if (idx === q.answer) {
+                el.classList.add('correct');
+                score++;
+            } else {
+                el.classList.add('wrong');
+                options[q.answer].classList.add('correct');
+            }
+
+            document.getElementById('quizScore').textContent = score;
+            document.getElementById('quizTotal').textContent = currentQuestion + 1;
+            document.getElementById('btnNext').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quizScore').textContent = 0;
+            document.getElementById('quizTotal').textContent = 0;
+            loadQuestion();
+        }
+
+        loadQuestion();
+
+        // === FORTUNE / OMIKUJI ===
+        const fortunes = [
+            { level: 'Great Blessing', kanji: '大吉', symbol: '&#x2728;', text: 'Amazing luck is on your way! The stars align in your favor.', meaning: 'Dai-kichi: The best possible fortune' },
+            { level: 'Blessing', kanji: '吉', symbol: '&#x1F338;', text: 'Good fortune smiles upon you. A pleasant surprise is coming.', meaning: 'Kichi: Good fortune' },
+            { level: 'Small Blessing', kanji: '小吉', symbol: '&#x1F31F;', text: 'Small but steady luck. Patience will bring rewards.', meaning: 'Sho-kichi: Small blessing' },
+            { level: 'Half Blessing', kanji: '半吉', symbol: '&#x1F319;', text: 'Mixed fortune. Focus on what truly matters to you.', meaning: 'Han-kichi: Half blessing' },
+            { level: 'Future Blessing', kanji: '末吉', symbol: '&#x1F33F;', text: 'Your luck will improve with time. Stay optimistic!', meaning: 'Sue-kichi: Luck to come' },
+            { level: 'Small Curse', kanji: '小凶', symbol: '&#x1F327;', text: 'Minor obstacles ahead. Stay cautious and focused.', meaning: 'Sho-kyo: Small misfortune' },
+            { level: 'Curse', kanji: '凶', symbol: '&#x26A1;', text: 'Challenges await. But remember: bad luck in omikuji means you should try harder!', meaning: 'Kyo: Bad fortune - tie it to a tree for good luck!' },
+            { level: 'Great Curse', kanji: '大凶', symbol: '&#x1F525;', text: 'The rarest fortune! In Japan, this is considered so rare it is actually lucky!', meaning: 'Dai-kyo: So rare it loops back to lucky!' },
+        ];
+
+        function drawFortune() {
+            const card = document.getElementById('fortuneCard');
+            card.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                const f = fortunes[Math.floor(Math.random() * fortunes.length)];
+                card.innerHTML = `
+                    <div class="fortune-symbol">${f.symbol}</div>
+                    <div class="fortune-kanji">${f.kanji}</div>
+                    <div class="fortune-text">${f.level}</div>
+                    <p style="margin: 15px 0; color: rgba(255,255,255,0.7); line-height:1.6;">${f.text}</p>
+                    <div class="fortune-meaning">${f.meaning}</div>
+                `;
+                card.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        // === FUN FACTS ===
+        const facts = [
+            { emoji: '&#x1F363;', title: 'Sushi Surprise', text: 'Original sushi was actually fermented fish stored in rice for months. The rice was thrown away and only the fish was eaten!' },
+            { emoji: '&#x1F431;', title: 'Cat Islands', text: 'Japan has at least 11 "Cat Islands" where cats outnumber humans. Aoshima island has a 6:1 cat-to-human ratio!' },
+            { emoji: '&#x1F389;', title: 'KFC Christmas', text: 'In Japan, eating KFC fried chicken on Christmas Eve is so popular that people pre-order weeks in advance!' },
+            { emoji: '&#x1F634;', title: 'Inemuri', text: 'In Japan, falling asleep at work (inemuri) is considered a sign of diligence — you worked so hard you exhausted yourself!' },
+            { emoji: '&#x1F48E;', title: 'Blue Sapphire', text: 'Sri Lanka produces about 90% of the world\'s blue sapphires. The famous "Star of India" sapphire is Sri Lankan!' },
+            { emoji: '&#x1F436;', title: 'Loyal Hachiko', text: 'The faithful dog Hachiko waited for his deceased owner at Shibuya Station every day for 9 years. His statue is now a meeting spot.' },
+            { emoji: '&#x1F3AE;', title: 'Gaming Capital', text: 'South Korea has professional StarCraft players who are treated like celebrities, with fan clubs and TV coverage!' },
+            { emoji: '&#x1F374;', title: 'Chopstick Etiquette', text: 'In many Asian countries, sticking chopsticks upright in rice resembles funeral incense and is considered very rude.' },
+            { emoji: '&#x1F30B;', title: 'Volcanic Beauty', text: 'Indonesia has about 130 active volcanoes — the most of any country. The volcanic soil makes it incredibly fertile!' },
+            { emoji: '&#x1F3B5;', title: 'K-Pop Economy', text: 'K-Pop contributes an estimated $12 billion annually to South Korea\'s economy, rivaling some major tech companies!' },
+            { emoji: '&#x1F3EF;', title: 'Ancient Scripts', text: 'Chinese characters (Hanzi) are over 3,000 years old and form the basis for Japanese Kanji and Korean Hanja!' },
+            { emoji: '&#x1F4F1;', title: 'Tech Nation', text: 'Japan had emoji on phones since 1999 — 11 years before they became mainstream worldwide!' }
+        ];
+
+        function renderFacts() {
+            const grid = document.getElementById('factsGrid');
+            grid.innerHTML = facts.map(f => `
+                <div class="fact-card">
+                    <div class="fact-emoji">${f.emoji}</div>
+                    <h3>${f.title}</h3>
+                    <p>${f.text}</p>
+                </div>
+            `).join('');
+        }
+        renderFacts();
+
+        // === SLOT MACHINE ===
+        const slotSymbols = ['&#x1F338;', '&#x1F3EF;', '&#x1F36C;', '&#x1F431;', '&#x1F30A;', '&#x26A9;', '&#x1F3B4;', '&#x2728;'];
+        let spins = 0, wins = 0, isSpinning = false;
+
+        function spinSlots() {
+            if (isSpinning) return;
+            isSpinning = true;
+            document.getElementById('btnSpin').disabled = true;
+            document.getElementById('slotResult').textContent = '';
+            document.getElementById('slotResult').className = 'slot-result';
+
+            const reels = [
+                document.getElementById('reel1'),
+                document.getElementById('reel2'),
+                document.getElementById('reel3')
+            ];
+
+            reels.forEach(r => r.classList.add('spinning'));
+
+            const results = [];
+            const delays = [800, 1400, 2000];
+
+            reels.forEach((reel, i) => {
+                let interval = setInterval(() => {
+                    reel.innerHTML = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
+                }, 80);
+
+                setTimeout(() => {
+                    clearInterval(interval);
+                    const final = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
+                    reel.innerHTML = final;
+                    reel.classList.remove('spinning');
+                    results.push(final);
+
+                    if (results.length === 3) {
+                        spins++;
+                        document.getElementById('spinCount').textContent = spins;
+
+                        if (results[0] === results[1] && results[1] === results[2]) {
+                            wins++;
+                            document.getElementById('winCount').textContent = wins;
+                            document.getElementById('slotResult').innerHTML = 'JACKPOT!!! &#x1F389;';
+                            document.getElementById('slotResult').className = 'slot-result win';
+                        } else if (results[0] === results[1] || results[1] === results[2] || results[0] === results[2]) {
+                            document.getElementById('slotResult').textContent = 'Almost! Two match!';
+                        } else {
+                            const messages = ['Try again!', 'So close!', 'Next time!', 'Keep going!'];
+                            document.getElementById('slotResult').textContent = messages[Math.floor(Math.random() * messages.length)];
+                        }
+
+                        isSpinning = false;
+                        document.getElementById('btnSpin').disabled = false;
+                    }
+                }, delays[i]);
+            });
+        }
+    </script>
+</body>
+</html>
